@@ -1,12 +1,38 @@
-arcs-py
-=======
+# 基于Arc-hybrid的中文句法分析推理工具
 
-Python implementation of Arc-Eager and Arc-Hybrid Greedy Dependency Parsing trained with a dynamic oracle described in:
+## 目录
 
-__Goldberg, Yoav, and Joakim Nivre. "Training Deterministic Parsers with Non-Deterministic Oracles." (2013)__
++ <a href="#1">功能介绍</a>
++ <a href="#2">上手指南</a>
+  + <a href="#3">开发前的配置要求</a>
+  + <a href="#4">安装步骤</a>
++ <a href="#5">文件目录说明</a>
 
-__Goldberg, Yoav, and Joakim Nivre. "A Dynamic Oracle for Arc-Eager Dependency Parsing" (2012)__
+## <span name="1">功能介绍</span>
 
-The sample data comes from Question Bank and a sample of PTB provided by NLTK in the corpora section, which I converted to a labeled dependency CONLL file using LTH converter and David Vadas' patches.  The sample data also contains non-projective parses, which are ignored by the sample driver program.
+​		基于Arc-hybrid的句法分析模型推理工具，针对中文句法分析输出结果。输入的格式为 .txt 输出格式为 .json
 
-If you are looking for a modern flexible dependency parser that supports non-projective parses and is near SoTA, you probably want to use a neural parser architecture like the one in [mead](https://github.com/dpressel/mead-baseline)
+##<span name="2">上手指南 </span>
+
+### <span name="3">开发前的配置要求</span>
+
+arm服务器
+psutil
+jieba
+argparse
+pathlib
+
+### <span name="4">安装步骤</span>
+
+pip install -r requirements.txt
+
+## <span name="5">文件目录说明</span>
+
+code
+├── README.md ---> 工具说明
+├── Dockerfile ---> docker镜像工具
+├── fileio.py ---> 数据读写工具
+├── inference.py ---> 推理工具
+├── monitoring.py ---> 监控工具
+├── /sample-data/ ---> 训练数据文件夹
+│── requirements.txt ---> 环境安装包信息

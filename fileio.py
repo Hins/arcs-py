@@ -1,4 +1,4 @@
-import csv
+import jieba
 
 WORD = 0
 POS = 1
@@ -6,21 +6,28 @@ HEAD = 2
 LABEL = 3
 
 
-def read_conll_deps(f):
-
+def read_conll_deps(file, trainable=True):
+    origin_sentences = []
     sentences = []
-
-    with open(f) as csvfile:
-        reader = csv.reader(csvfile, delimiter='\t', quoting=csv.QUOTE_NONE)
-
-        sentence = []
-
-        for row in reader:
-            if len(row) == 0:
-                sentence = [tok if tok[HEAD] is not -1 else (tok[WORD], tok[POS], len(sentence), tok[LABEL]) for tok in sentence]
+    sentence = []
+    with open(file, 'r') as f:
+        for line in f:
+            line = line.strip().replace('\n', '')
+            if trainable:
+                tokens = line.split('\t')
+                if len(tokens) < 9:
+                    sentence = [tok if tok[HEAD] is not -1 else (tok[WORD], tok[POS], len(sentence), tok[LABEL]) for tok in sentence]
+                    sentences.append(sentence)
+                    sentence = []
+                else:
+                    sentence.append((tokens[1].lower(), tokens[3], int(tokens[6]) - 1, tokens[7]))
+            else:
+                tokens = [token for token in jieba.cut(line)]
+                origin_sentences.append(tokens)
+                for token in tokens:
+                    sentence.append((token[0].lower(), "", 0, "root"))
+                sentence = [tok if tok[HEAD] is not -1 else (tok[WORD], tok[POS], len(sentence), tok[LABEL]) for tok in
+                            sentence]
                 sentences.append(sentence)
                 sentence = []
-                continue
-            sentence.append((row[1].lower(), row[3], int(row[6]) - 1, row[7]))
-
-    return sentences
+    return origin_sentences, sentences
