@@ -20,7 +20,7 @@ def read_conll_deps(file, trainable=True):
                     sentences.append(sentence)
                     sentence = []
                 else:
-                    sentence.append((tokens[1].lower(), tokens[3], int(tokens[6]) - 1, tokens[7]))
+                    sentence.append((tokens[1].lower(), tokens[3], int(tokens[6]), tokens[7]))
             else:
                 tokens = [token for token in jieba.cut(line)]
                 origin_sentences.append(tokens)
